@@ -29,7 +29,7 @@ public class JdbcConfiguration {
     }
 
     @Bean(name = "dataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.postgres")
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
         return this.getDataSource();
     }
@@ -41,8 +41,8 @@ public class JdbcConfiguration {
     }
     private DataSource getDataSource() {
         var dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty(String.format("%s.driver-class-name", "spring.datasource.postgres"))));
-        dataSource.setUrl(Objects.requireNonNull(env.getProperty(String.format("%s.url", "spring.datasource.postgres"))));
+        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty(String.format("%s.driver-class-name", "spring.datasource"))));
+        dataSource.setUrl(Objects.requireNonNull(env.getProperty(String.format("%s.url", "spring.datasource"))));
         return dataSource;
     }
 
