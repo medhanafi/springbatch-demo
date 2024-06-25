@@ -1,10 +1,11 @@
-package net.siinergy.springbatch.demo.jobs.initdata;
+package net.siinergy.springbatch.demo.jobs.batch.initdata;
 
-import net.siinergy.springbatch.demo.dto.CountryDto;
-import net.siinergy.springbatch.demo.dto.DirectorDto;
-import net.siinergy.springbatch.demo.dto.GenreDto;
-import net.siinergy.springbatch.demo.dto.MovieDto;
-import net.siinergy.springbatch.demo.model.Movie;
+
+import net.siinergy.springbatch.demo.jobs.model.CountryDto;
+import net.siinergy.springbatch.demo.jobs.model.DirectorDto;
+import net.siinergy.springbatch.demo.jobs.model.GenreDto;
+import net.siinergy.springbatch.demo.jobs.model.MovieDto;
+import net.siinergy.springbatch.demo.jobs.batch.Movie;
 import org.springframework.batch.item.ItemProcessor;
 
 import java.time.Duration;
@@ -21,10 +22,10 @@ public class MovieInitProcessor implements ItemProcessor<Movie, MovieDto> {
                .setId(Long.parseLong(item.getId()))
                .setTitle(item.getTitle())
                .setYear(Integer.parseInt(item.getYear()))
-               .setGenreDto(parseGenre(item.getGenre()))
+               .setGenre(parseGenre(item.getGenre()))
                .setDuration(parseDuration(item.getDuration()))
                .setCountries(parseCountries(item.getCountries()))
-               .setDirectorDto(new DirectorDto(item.getDirector()))
+               .setDirector(new DirectorDto().setFullName(item.getDirector()))
                .setRating(Float.parseFloat(item.getRating()))
                .setImdbLink(item.getImdbLink())
                .setImdbId(parseImdbId(item.getImdbLink()));

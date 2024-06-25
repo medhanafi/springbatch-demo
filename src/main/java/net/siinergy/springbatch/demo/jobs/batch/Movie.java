@@ -1,4 +1,4 @@
-package net.siinergy.springbatch.demo.model;
+package net.siinergy.springbatch.demo.jobs.batch;
 
 public class Movie {
 

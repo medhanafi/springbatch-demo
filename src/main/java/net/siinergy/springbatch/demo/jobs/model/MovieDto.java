@@ -1,7 +1,8 @@
-package net.siinergy.springbatch.demo.dto;
+package net.siinergy.springbatch.demo.jobs.model;
+
+
 
 import java.util.Set;
-
 
 
 public class MovieDto {
@@ -10,7 +11,7 @@ public class MovieDto {
 
     private String title;
 
-    private DirectorDto directorDto;
+    private DirectorDto director;
 
     private Integer year;
 
@@ -18,15 +19,12 @@ public class MovieDto {
 
     private Float rating;
 
-    private Set<GenreDto> genreDto;
+    private Set<GenreDto> genre;
 
     private Set<CountryDto> countries;
-
     private String imdbLink;
-
     private String imdbId;
-
-    private String moviePosterUri;
+    private String posterUri;
 
     public Long getId() {
         return id;
@@ -46,12 +44,12 @@ public class MovieDto {
         return this;
     }
 
-    public DirectorDto getDirectorDto() {
-        return directorDto;
+    public DirectorDto getDirector() {
+        return director;
     }
 
-    public MovieDto setDirectorDto(DirectorDto directorDto) {
-        this.directorDto = directorDto;
+    public MovieDto setDirector(DirectorDto director) {
+        this.director = director;
         return this;
     }
 
@@ -82,12 +80,12 @@ public class MovieDto {
         return this;
     }
 
-    public Set<GenreDto> getGenreDto() {
-        return genreDto;
+    public Set<GenreDto> getGenre() {
+        return genre;
     }
 
-    public MovieDto setGenreDto(Set<GenreDto> genreDto) {
-        this.genreDto = genreDto;
+    public MovieDto setGenre(Set<GenreDto> genre) {
+        this.genre = genre;
         return this;
     }
 
@@ -100,13 +98,13 @@ public class MovieDto {
         return this;
     }
 
-    public String getImdbLink() {
-        return imdbLink;
+    public MovieDto setImdbLink(String imdbLink) {
+        this.imdbLink=imdbLink;
+        return this;
     }
 
-    public MovieDto setImdbLink(String imdbLink) {
-        this.imdbLink = imdbLink;
-        return this;
+    public String getImdbLink() {
+        return imdbLink;
     }
 
     public String getImdbId() {
@@ -118,12 +116,13 @@ public class MovieDto {
         return this;
     }
 
-    public String getMoviePosterUri() {
-        return moviePosterUri;
+    public String getPosterUri() {
+        return posterUri;
     }
 
-    public MovieDto setMoviePosterUri(String moviePosterUri) {
-        this.moviePosterUri = moviePosterUri;
+    public MovieDto setPosterUri(String posterUri) {
+        this.posterUri = posterUri;
         return this;
     }
+
 }

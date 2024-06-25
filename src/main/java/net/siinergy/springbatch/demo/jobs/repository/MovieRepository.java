@@ -1,6 +1,6 @@
-package com.sii.springbatchdemo.repository;
+package net.siinergy.springbatch.demo.jobs.repository;
 
-import com.sii.springbatchdemo.entity.Movie;
+import net.siinergy.springbatch.demo.jobs.entity.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

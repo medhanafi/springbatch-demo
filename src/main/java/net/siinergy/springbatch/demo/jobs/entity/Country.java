@@ -1,4 +1,4 @@
-package com.sii.springbatchdemo.entity;
+package net.siinergy.springbatch.demo.jobs.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,4 +35,7 @@ public class Country {
     @EqualsAndHashCode.Exclude
     private Set<Movie> movies;
 
+    public Country(long i) {
+        this.id=i;
+    }
 }

@@ -1,9 +1,7 @@
-package net.siinergy.springbatch.demo.jobs.initdata;
+package net.siinergy.springbatch.demo.jobs.batch.initdata;
 
-import net.siinergy.springbatch.demo.dto.MovieDto;
-import net.siinergy.springbatch.demo.jobs.updatedata.MovieUpdateProcessor;
-import net.siinergy.springbatch.demo.jobs.updatedata.MovieUpdateWriter;
-import net.siinergy.springbatch.demo.model.Movie;
+import net.siinergy.springbatch.demo.jobs.model.MovieDto;
+import net.siinergy.springbatch.demo.jobs.batch.Movie;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -27,7 +25,7 @@ public class MovieInitConfig {
     private final JobRepository jobRepository;
     private final PlatformTransactionManager batchTransactionManager;
     private final JdbcTemplate jdbcTemplate;
-    private static final int BATCH_SIZE = 3;
+    private static final int BATCH_SIZE = 100;
 
     public MovieInitConfig(@Qualifier("jdbcTemplatePostgres") JdbcTemplate jdbcTemplate, JobRepository jobRepository, PlatformTransactionManager batchTransactionManager) {
         this.jobRepository = jobRepository;
@@ -66,43 +64,12 @@ public class MovieInitConfig {
 
     @Bean("movieInitWriter")
     public MovieInitWriter writer() {
-        return new MovieInitWriter(this.jdbcTemplate);
+        return new MovieInitWriter();
     }
 
 
-    /**
-     * Job which contains multiple steps
-     */
-    @Bean
-    public Job jobUpdateInputFile() {
-        return new JobBuilder("jobUpdateMovies", jobRepository)
-                .incrementer(new RunIdIncrementer())
-                .start(stepUpdateMovies())
-                .build();
-    }
 
-
-    @Bean
-    public Step stepUpdateMovies() {
-        return new StepBuilder("stepUpdateMovies", jobRepository)
-                .<Movie, MovieDto>chunk(BATCH_SIZE, batchTransactionManager)
-                .reader(reader())
-                .processor(processorUpdateMovie())
-                .writer(writerUpdateMovie())
-                .build();
-    }
-
-
-    @Bean
-    public MovieUpdateProcessor processorUpdateMovie() {
-        return new MovieUpdateProcessor(this.jdbcTemplate);
-    }
-
-    @Bean
-    public ItemWriter<? super MovieDto> writerUpdateMovie() {
-        return new MovieUpdateWriter(this.jdbcTemplate);
-    }
-    @Bean
+ @Bean
     public Step stepInitMovie() {
         return new StepBuilder("stepInitMovie", jobRepository)
                 .<Movie, MovieDto>chunk(BATCH_SIZE, batchTransactionManager)
@@ -117,7 +84,6 @@ public class MovieInitConfig {
         return new JobBuilder("jobMovie", jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .start(stepInitMovie())
-                .next(stepUpdateMovies())
                 .build();
     }
 

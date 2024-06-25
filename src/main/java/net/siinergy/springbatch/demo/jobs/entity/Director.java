@@ -1,4 +1,4 @@
-package com.sii.springbatchdemo.entity;
+package net.siinergy.springbatch.demo.jobs.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,23 +18,21 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Genre {
+public class Director {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String label;
+    private String fullName;
 
-    @ManyToMany
+    @OneToMany
     @JoinTable(
-        joinColumns = @JoinColumn(name = "genre_id"),
+        joinColumns = @JoinColumn(name = "director_id"),
         inverseJoinColumns = @JoinColumn(name = "movie_id")
     )
 
     @EqualsAndHashCode.Exclude
     private Set<Movie> movies;
-
-
 
 }

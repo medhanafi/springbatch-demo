@@ -1,13 +1,14 @@
-package net.siinergy.springbatch.demo.dto;
+package net.siinergy.springbatch.demo.jobs.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
 
 public class DirectorDto {
     private Long id;
 
     private String fullName;
-
-    public DirectorDto(String director) {
-        this.fullName = director;
-    }
 
     public Long getId() {
         return id;
