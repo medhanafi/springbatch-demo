@@ -14,25 +14,16 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Director {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+   private Long id;
 
     private String fullName;
 
-    @OneToMany
-    @JoinTable(
-        joinColumns = @JoinColumn(name = "director_id"),
-        inverseJoinColumns = @JoinColumn(name = "movie_id")
-    )
-
-    @EqualsAndHashCode.Exclude
+  @EqualsAndHashCode.Exclude
     private Set<Movie> movies;
 
 }

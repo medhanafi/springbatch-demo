@@ -14,23 +14,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Country {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-
-    @ManyToMany
-    @JoinTable(
-        joinColumns = @JoinColumn(name = "country_id"),
-        inverseJoinColumns = @JoinColumn(name = "movie_id")
-    )
 
     @EqualsAndHashCode.Exclude
     private Set<Movie> movies;
