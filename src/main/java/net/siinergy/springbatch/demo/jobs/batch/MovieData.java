@@ -1,6 +1,6 @@
 package net.siinergy.springbatch.demo.jobs.batch;
 
-public class Movie {
+public class MovieData {
 
     private String id;
 
@@ -24,7 +24,7 @@ public class Movie {
         return id;
     }
 
-    public Movie setId(String id) {
+    public MovieData setId(String id) {
         this.id = id;
         return this;
     }
@@ -33,7 +33,7 @@ public class Movie {
         return title;
     }
 
-    public Movie setTitle(String title) {
+    public MovieData setTitle(String title) {
         this.title = title;
         return this;
     }
@@ -42,7 +42,7 @@ public class Movie {
         return year;
     }
 
-    public Movie setYear(String year) {
+    public MovieData setYear(String year) {
         this.year = year;
         return this;
     }
@@ -51,7 +51,7 @@ public class Movie {
         return genre;
     }
 
-    public Movie setGenre(String genre) {
+    public MovieData setGenre(String genre) {
         this.genre = genre;
         return this;
     }
@@ -60,7 +60,7 @@ public class Movie {
         return duration;
     }
 
-    public Movie setDuration(String duration) {
+    public MovieData setDuration(String duration) {
         this.duration = duration;
         return this;
     }
@@ -69,7 +69,7 @@ public class Movie {
         return countries;
     }
 
-    public Movie setCountries(String countries) {
+    public MovieData setCountries(String countries) {
         this.countries = countries;
         return this;
     }
@@ -78,7 +78,7 @@ public class Movie {
         return director;
     }
 
-    public Movie setDirector(String director) {
+    public MovieData setDirector(String director) {
         this.director = director;
         return this;
     }
@@ -87,7 +87,7 @@ public class Movie {
         return rating;
     }
 
-    public Movie setRating(String rating) {
+    public MovieData setRating(String rating) {
         this.rating = rating;
         return this;
     }
@@ -96,7 +96,7 @@ public class Movie {
         return imdbLink;
     }
 
-    public Movie setImdbLink(String imdbLink) {
+    public MovieData setImdbLink(String imdbLink) {
         this.imdbLink = imdbLink;
         return this;
     }

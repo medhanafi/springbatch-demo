@@ -1,8 +1,8 @@
 package net.siinergy.springbatch.demo.jobs.batch.initdata;
 
-import net.siinergy.springbatch.demo.jobs.model.CountryDto;
-import net.siinergy.springbatch.demo.jobs.model.GenreDto;
-import net.siinergy.springbatch.demo.jobs.model.MovieDto;
+import net.siinergy.springbatch.demo.jobs.model.Country;
+import net.siinergy.springbatch.demo.jobs.model.Genre;
+import net.siinergy.springbatch.demo.jobs.model.Movie;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +14,21 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 @Component
-public class MovieInitWriter implements ItemWriter<MovieDto> {
+public class MovieInitWriter implements ItemWriter<Movie> {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void write(@NonNull Chunk<? extends MovieDto> movies) {
+    public void write(@NonNull Chunk<? extends Movie> movies) {
         // List countries, genres, and directors
         final HashSet<String> countries = new HashSet<>();
         final HashSet<String> genres = new HashSet<>();
         final HashSet<String> directors = new HashSet<>();
 
         movies.forEach(m -> {
-            countries.addAll(m.getCountries().stream().map(CountryDto::getName).toList());
-            genres.addAll(m.getGenre().stream().map(GenreDto::getLabel).toList());
+            countries.addAll(m.getCountries().stream().map(Country::getName).toList());
+            genres.addAll(m.getGenre().stream().map(Genre::getLabel).toList());
             directors.add(m.getDirector().getFullName());
         });
 

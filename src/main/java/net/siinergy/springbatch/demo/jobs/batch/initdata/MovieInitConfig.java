@@ -1,7 +1,7 @@
 package net.siinergy.springbatch.demo.jobs.batch.initdata;
 
-import net.siinergy.springbatch.demo.jobs.model.MovieDto;
-import net.siinergy.springbatch.demo.jobs.batch.Movie;
+import net.siinergy.springbatch.demo.jobs.batch.MovieData;
+import net.siinergy.springbatch.demo.jobs.model.Movie;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -10,7 +10,6 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,17 +33,17 @@ public class MovieInitConfig {
     }
 
     @Bean("movieInitReader")
-    public FlatFileItemReader<Movie> reader() {
+    public FlatFileItemReader<MovieData> reader() {
         String[] columnNames = {"Id", "Title", "Year", "Genre", "Duration", "Origin", "Director", "IMDB rating","Rating count", "IMDB link"}; // Noms des colonnes
 
-        return new FlatFileItemReaderBuilder<Movie>()
+        return new FlatFileItemReaderBuilder<MovieData>()
                 .resource(new ClassPathResource("movies.csv"))
                 .name("MovieInit")
                 .linesToSkip(1)
                 .delimited()
                 .delimiter(",")
                 .names(columnNames)
-                .fieldSetMapper(fieldSet -> new Movie()
+                .fieldSetMapper(fieldSet -> new MovieData()
                         .setId(fieldSet.readString(columnNames[0]))
                         .setTitle(fieldSet.readString(columnNames[1]))
                         .setYear(fieldSet.readString(columnNames[2]))
@@ -58,7 +57,7 @@ public class MovieInitConfig {
     }
 
     @Bean("movieInitProcessor")
-    public ItemProcessor<Movie, MovieDto> processor() {
+    public ItemProcessor<MovieData, Movie> processor() {
         return new MovieInitProcessor();
     }
 
@@ -72,7 +71,7 @@ public class MovieInitConfig {
  @Bean
     public Step stepInitMovie() {
         return new StepBuilder("stepInitMovie", jobRepository)
-                .<Movie, MovieDto>chunk(BATCH_SIZE, batchTransactionManager)
+                .<MovieData, Movie>chunk(BATCH_SIZE, batchTransactionManager)
                 .reader(reader())
                 .processor(processor())
                 .writer(writer())

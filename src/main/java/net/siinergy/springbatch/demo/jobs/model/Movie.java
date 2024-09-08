@@ -5,13 +5,13 @@ package net.siinergy.springbatch.demo.jobs.model;
 import java.util.Set;
 
 
-public class MovieDto {
+public class Movie {
 
     private Long id;
 
     private String title;
 
-    private DirectorDto director;
+    private Director director;
 
     private Integer year;
 
@@ -19,9 +19,9 @@ public class MovieDto {
 
     private Float rating;
 
-    private Set<GenreDto> genre;
+    private Set<Genre> genre;
 
-    private Set<CountryDto> countries;
+    private Set<Country> countries;
     private String imdbLink;
     private String imdbId;
     private String posterUri;
@@ -30,7 +30,7 @@ public class MovieDto {
         return id;
     }
 
-    public MovieDto setId(Long id) {
+    public Movie setId(Long id) {
         this.id = id;
         return this;
     }
@@ -39,16 +39,16 @@ public class MovieDto {
         return title;
     }
 
-    public MovieDto setTitle(String title) {
+    public Movie setTitle(String title) {
         this.title = title;
         return this;
     }
 
-    public DirectorDto getDirector() {
+    public Director getDirector() {
         return director;
     }
 
-    public MovieDto setDirector(DirectorDto director) {
+    public Movie setDirector(Director director) {
         this.director = director;
         return this;
     }
@@ -57,7 +57,7 @@ public class MovieDto {
         return year;
     }
 
-    public MovieDto setYear(Integer year) {
+    public Movie setYear(Integer year) {
         this.year = year;
         return this;
     }
@@ -66,7 +66,7 @@ public class MovieDto {
         return duration;
     }
 
-    public MovieDto setDuration(Long duration) {
+    public Movie setDuration(Long duration) {
         this.duration = duration;
         return this;
     }
@@ -75,30 +75,30 @@ public class MovieDto {
         return rating;
     }
 
-    public MovieDto setRating(Float rating) {
+    public Movie setRating(Float rating) {
         this.rating = rating;
         return this;
     }
 
-    public Set<GenreDto> getGenre() {
+    public Set<Genre> getGenre() {
         return genre;
     }
 
-    public MovieDto setGenre(Set<GenreDto> genre) {
+    public Movie setGenre(Set<Genre> genre) {
         this.genre = genre;
         return this;
     }
 
-    public Set<CountryDto> getCountries() {
+    public Set<Country> getCountries() {
         return countries;
     }
 
-    public MovieDto setCountries(Set<CountryDto> countries) {
+    public Movie setCountries(Set<Country> countries) {
         this.countries = countries;
         return this;
     }
 
-    public MovieDto setImdbLink(String imdbLink) {
+    public Movie setImdbLink(String imdbLink) {
         this.imdbLink=imdbLink;
         return this;
     }
@@ -111,7 +111,7 @@ public class MovieDto {
         return imdbId;
     }
 
-    public MovieDto setImdbId(String imdbId) {
+    public Movie setImdbId(String imdbId) {
         this.imdbId = imdbId;
         return this;
     }
@@ -120,7 +120,7 @@ public class MovieDto {
         return posterUri;
     }
 
-    public MovieDto setPosterUri(String posterUri) {
+    public Movie setPosterUri(String posterUri) {
         this.posterUri = posterUri;
         return this;
     }

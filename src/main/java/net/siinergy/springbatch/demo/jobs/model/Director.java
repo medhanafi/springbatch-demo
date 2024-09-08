@@ -1,11 +1,7 @@
 package net.siinergy.springbatch.demo.jobs.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 
-
-public class DirectorDto {
+public class Director {
     private Long id;
 
     private String fullName;
@@ -14,7 +10,7 @@ public class DirectorDto {
         return id;
     }
 
-    public DirectorDto setId(Long id) {
+    public Director setId(Long id) {
         this.id = id;
         return this;
     }
@@ -23,7 +19,7 @@ public class DirectorDto {
         return fullName;
     }
 
-    public DirectorDto setFullName(String fullName) {
+    public Director setFullName(String fullName) {
         this.fullName = fullName;
         return this;
     }
