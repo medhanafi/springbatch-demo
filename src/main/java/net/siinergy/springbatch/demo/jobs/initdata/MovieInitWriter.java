@@ -1,8 +1,8 @@
-package net.siinergy.springbatch.demo.jobs.batch.initdata;
+package net.siinergy.springbatch.demo.jobs.initdata;
 
-import net.siinergy.springbatch.demo.jobs.model.Country;
-import net.siinergy.springbatch.demo.jobs.model.Genre;
-import net.siinergy.springbatch.demo.jobs.model.Movie;
+import net.siinergy.springbatch.demo.model.Country;
+import net.siinergy.springbatch.demo.model.Genre;
+import net.siinergy.springbatch.demo.model.Movie;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class MovieInitWriter implements ItemWriter<Movie> {
 
         countries.forEach(c -> {
             jdbcTemplate.update("INSERT INTO country (name) VALUES (?)", c);
-            Long countryId = jdbcTemplate.queryForObject("SELECT id FROM country WHERE name = ?", Long.class, c);
+           Long countryId = jdbcTemplate.queryForObject("SELECT id FROM country WHERE name = ?", Long.class, c);
             countryIdMap.put(c, countryId);
         });
 

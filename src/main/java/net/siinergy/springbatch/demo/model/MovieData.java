@@ -1,4 +1,4 @@
-package net.siinergy.springbatch.demo.jobs.batch;
+package net.siinergy.springbatch.demo.model;
 
 public class MovieData {
 

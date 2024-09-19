@@ -1,4 +1,4 @@
-package net.siinergy.springbatch.demo.jobs.model;
+package net.siinergy.springbatch.demo.model;
 
 
 public class Country {

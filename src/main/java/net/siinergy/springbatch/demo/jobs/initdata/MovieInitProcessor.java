@@ -1,11 +1,11 @@
-package net.siinergy.springbatch.demo.jobs.batch.initdata;
+package net.siinergy.springbatch.demo.jobs.initdata;
 
 
-import net.siinergy.springbatch.demo.jobs.batch.MovieData;
-import net.siinergy.springbatch.demo.jobs.model.Country;
-import net.siinergy.springbatch.demo.jobs.model.Director;
-import net.siinergy.springbatch.demo.jobs.model.Genre;
-import net.siinergy.springbatch.demo.jobs.model.Movie;
+import net.siinergy.springbatch.demo.model.MovieData;
+import net.siinergy.springbatch.demo.model.Country;
+import net.siinergy.springbatch.demo.model.Director;
+import net.siinergy.springbatch.demo.model.Genre;
+import net.siinergy.springbatch.demo.model.Movie;
 import org.springframework.batch.item.ItemProcessor;
 
 import java.time.Duration;

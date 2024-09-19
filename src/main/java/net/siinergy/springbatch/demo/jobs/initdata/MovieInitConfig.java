@@ -1,7 +1,7 @@
-package net.siinergy.springbatch.demo.jobs.batch.initdata;
+package net.siinergy.springbatch.demo.jobs.initdata;
 
-import net.siinergy.springbatch.demo.jobs.batch.MovieData;
-import net.siinergy.springbatch.demo.jobs.model.Movie;
+import net.siinergy.springbatch.demo.model.MovieData;
+import net.siinergy.springbatch.demo.model.Movie;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -41,7 +41,7 @@ public class MovieInitConfig {
                 .name("MovieInit")
                 .linesToSkip(1)
                 .delimited()
-                .delimiter(",")
+                .delimiter(";")
                 .names(columnNames)
                 .fieldSetMapper(fieldSet -> new MovieData()
                         .setId(fieldSet.readString(columnNames[0]))
