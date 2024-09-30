@@ -8,13 +8,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = Application.class)
-@ActiveProfiles({ "IC" })
-public class BatchApplicationTests {
+@SpringBootTest(classes = { Application.class, JdbcConfiguration.class}, properties = { "spring.main.allow-bean-definition-overriding=true" })
+@ActiveProfiles({ "TEST" })
+public class BatchApplicationTest {
 
 	@Test
-	void contextLoads() {
+	public void testContextLoads() {
 		assertThat(true).isEqualTo(true);
 	}
 //
