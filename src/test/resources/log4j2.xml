@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR">
+
+    <Properties>
+        <Property name="application.name">com.arkea.ged.bapph</Property>
+        <Property name="main.log.name">bapph</Property>
+        <Property name="code.boite">1C23</Property>
+        <Property name="code.efs">NA</Property>
+        <Property name="env.app">IC</Property>
+        <Property name="log.path">$${env:BATCH_PATH}</Property>
+        <Property name="file.timestamp.prefix">${date:yyyyMMddHHmmssSSS}</Property>
+
+    </Properties>
+
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{HH:mm:ss.SSS} [%t] %-5level FT:%MDC{FishTag} %c{1.} - %msg%n"/>
+        </Console>
+
+        <RollingRandomAccessFile name="TestLog"
+                                 fileName="${log.path}/tests.log"
+                                 filePattern="${log.path} bv/logs/%d{yyyy-MM-dd}-%i-${application.name}.log.gz">
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss.SSS} %-5level FT:%MDC{FishTag} %c{1.} - %msg%n
+                </Pattern>
+            </PatternLayout>
+            <Policies>
+                <!-- tous les jours (voir filePattern -->
+                <TimeBasedTriggeringPolicy/>
+                <!-- ou tout les 200 M -->
+                <SizeBasedTriggeringPolicy size="200 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <Logger name="com.arkea.ged.bapph" additivity="false"
+                level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="TestLog"/>
+        </Logger>
+
+
+        <Logger name="com.arkea.ged.wiremock"
+                additivity="false" level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="TestLog"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="TestLog"/>
+        </Root>
+
+    </Loggers>
+</Configuration>

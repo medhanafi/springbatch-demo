@@ -1,0 +1,21 @@
+app:
+  batch:
+      jobs:
+        "jobMovie"
+spring:
+  datasource:
+    # H2 database config
+    jdbc-url: "jdbc:h2:mem:movie"
+    driver-class-name: org.h2.Driver
+    username: user
+    password: password
+
+
+  batch:
+    jdbc:
+      schema: classpath:org/springframework/batch/core/schema-h2.sql
+      initialize-schema: always
+    job:
+      enabled: false
+
+
