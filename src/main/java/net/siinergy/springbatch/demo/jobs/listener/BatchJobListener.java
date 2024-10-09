@@ -1,4 +1,4 @@
-package net.siinergy.springbatch.demo.jobs;
+package net.siinergy.springbatch.demo.jobs.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
