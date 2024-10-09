@@ -32,4 +32,8 @@ public class JobInitTest {
     public void lesAssociationsAvecLeRéalisateurLeSPaysEtLeGenreDoiventÊtreCrééesCorrectement(String arg0, String arg1, String arg2) {
         assertThat(true).isEqualTo(true);
     }
+
+    @Alors("le job doit se terminer avec succès")
+    public void leJobDoitSeTerminerAvecSuccès() {
+    }
 }

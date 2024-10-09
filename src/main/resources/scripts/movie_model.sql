@@ -49,9 +49,7 @@ CREATE TABLE movie (
                        rating float4 NULL,
                        title varchar(255) NULL,
                        "year" int4 NULL,
-                       director_id int8 NULL,
-                       CONSTRAINT movie_pkey PRIMARY KEY (id),
-                       CONSTRAINT fkbi47w3cnsfi30gc1nu2avgra2 FOREIGN KEY (director_id) REFERENCES director(id)
+                       CONSTRAINT movie_pkey PRIMARY KEY (id)
 );
 
 
@@ -99,3 +97,7 @@ CREATE TABLE genre_movies (
                               CONSTRAINT fkna0q0v9ce4wywop8o440cv70p FOREIGN KEY (genre_id) REFERENCES genre(id),
                               CONSTRAINT fko0p8dudi1ar9iy1oiq7gesymb FOREIGN KEY (movie_id) REFERENCES movie(id)
 );
+
+ALTER TABLE country ADD CONSTRAINT unique_country_name UNIQUE (name);
+ALTER TABLE genre ADD CONSTRAINT unique_genre_label UNIQUE (label);
+ALTER TABLE director ADD CONSTRAINT unique_director_full_name UNIQUE (full_name);

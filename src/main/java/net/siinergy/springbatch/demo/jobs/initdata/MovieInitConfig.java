@@ -2,6 +2,7 @@ package net.siinergy.springbatch.demo.jobs.initdata;
 
 import net.siinergy.springbatch.demo.model.MovieData;
 import net.siinergy.springbatch.demo.model.Movie;
+import net.siinergy.springbatch.demo.jobs.BatchStepListener;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -16,8 +17,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
+
+import java.io.IOException;
+
 @Configuration
 @EnableBatchProcessing
 public class MovieInitConfig {
@@ -69,20 +75,21 @@ public class MovieInitConfig {
 
 
  @Bean
-    public Step stepInitMovie() {
+    public Step stepInitMovie(BatchStepListener batchStepListener ) {
         return new StepBuilder("stepInitMovie", jobRepository)
                 .<MovieData, Movie>chunk(BATCH_SIZE, batchTransactionManager)
                 .reader(reader())
                 .processor(processor())
                 .writer(writer())
+                .listener(batchStepListener)
                 .build();
     }
 
     @Bean
-    public Job jobMovie() {
+    public Job jobMovie(BatchStepListener batchStepListener) {
         return new JobBuilder("jobMovie", jobRepository)
                 .incrementer(new RunIdIncrementer())
-                .start(stepInitMovie())
+                .start(stepInitMovie(batchStepListener))
                 .build();
     }
 
