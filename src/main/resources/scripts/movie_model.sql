@@ -1,63 +1,33 @@
--- public.country definition
-
--- Drop table
-
--- DROP TABLE country;
 
 CREATE TABLE country (
                          id bigserial NOT NULL,
-                         "name" varchar(255) NULL,
+                         country_name varchar(128) NULL,
                          CONSTRAINT country_pkey PRIMARY KEY (id)
 );
 
 
--- public.director definition
-
--- Drop table
-
--- DROP TABLE director;
-
 CREATE TABLE director (
                           id bigserial NOT NULL,
-                          full_name varchar(255) NULL,
+                          full_name varchar(128) NULL,
                           CONSTRAINT director_pkey PRIMARY KEY (id)
 );
 
 
--- public.genre definition
-
--- Drop table
-
--- DROP TABLE genre;
-
 CREATE TABLE genre (
                        id bigserial NOT NULL,
-                       "label" varchar(255) NULL,
+                       genre_label varchar(128) NULL,
                        CONSTRAINT genre_pkey PRIMARY KEY (id)
 );
-
-
--- public.movie definition
-
--- Drop table
-
--- DROP TABLE movie;
 
 CREATE TABLE movie (
                        id bigserial NOT NULL,
                        duration int4 NULL,
                        rating float4 NULL,
-                       title varchar(255) NULL,
-                       "year" int4 NULL,
+                       movie_title varchar(255) NULL,
+                       movie_year int4 NULL,
                        CONSTRAINT movie_pkey PRIMARY KEY (id)
 );
 
-
--- public.country_movies definition
-
--- Drop table
-
--- DROP TABLE country_movies;
 
 CREATE TABLE country_movies (
                                 country_id int8 NOT NULL,
@@ -68,12 +38,6 @@ CREATE TABLE country_movies (
 );
 
 
--- public.director_movies definition
-
--- Drop table
-
--- DROP TABLE director_movies;
-
 CREATE TABLE director_movies (
                                  director_id int8 NOT NULL,
                                  movie_id int8 NOT NULL,
@@ -83,13 +47,6 @@ CREATE TABLE director_movies (
                                  CONSTRAINT fkdl3n3od7w3v7g2tjrte89e7aw FOREIGN KEY (director_id) REFERENCES director(id)
 );
 
-
--- public.genre_movies definition
-
--- Drop table
-
--- DROP TABLE genre_movies;
-
 CREATE TABLE genre_movies (
                               genre_id int8 NOT NULL,
                               movie_id int8 NOT NULL,
@@ -98,6 +55,6 @@ CREATE TABLE genre_movies (
                               CONSTRAINT fko0p8dudi1ar9iy1oiq7gesymb FOREIGN KEY (movie_id) REFERENCES movie(id)
 );
 
-ALTER TABLE country ADD CONSTRAINT unique_country_name UNIQUE (name);
-ALTER TABLE genre ADD CONSTRAINT unique_genre_label UNIQUE (label);
+ALTER TABLE country ADD CONSTRAINT unique_country_name UNIQUE (country_name);
+ALTER TABLE genre ADD CONSTRAINT unique_genre_label UNIQUE (genre_label);
 ALTER TABLE director ADD CONSTRAINT unique_director_full_name UNIQUE (full_name);

@@ -43,10 +43,10 @@ public class MovieInitWriter implements ItemWriter<Movie> {
         }
 
         // Créer des pays dans la base de données et récupérer leurs IDs
-        HashMap<String, Long> countryIdMap = createEntities(countries, "country", "name");
+        HashMap<String, Long> countryIdMap = createEntities(countries, "country", "country_name");
 
         // Créer des genres dans la base de données et récupérer leurs IDs
-        HashMap<String, Long> genreIdMap = createEntities(genres, "genre", "label");
+        HashMap<String, Long> genreIdMap = createEntities(genres, "genre", "genre_label");
 
         // Créer des réalisateurs dans la base de données et récupérer leurs IDs
         HashMap<String, Long> directorIdMap = createEntities(directors, "director", "full_name");
@@ -54,14 +54,14 @@ public class MovieInitWriter implements ItemWriter<Movie> {
         // Traiter chaque film pour l'insertion dans la base de données
         for (Movie movie : movies) {
             // Vérifier si le film existe déjà dans la base de données
-            Long movieId = getIdByColumn("movie", "title", movie.getTitle());
+            Long movieId = getIdByColumn("movie", "movie_title", movie.getTitle());
             if (movieId == null) {
                 // Si le film n'existe pas, l'insérer dans la table movie
-                jdbcTemplate.update("INSERT INTO movie (title, duration, rating, year) VALUES (?, ?, ?, ?)",
+                jdbcTemplate.update("INSERT INTO movie (movie_title, duration, rating, movie_year) VALUES (?, ?, ?, ?)",
                         movie.getTitle(), movie.getDuration().intValue(), movie.getRating(), movie.getYear());
                 LOG.info("Film ajouté : {}", movie.getTitle());
                 // Récupérer à nouveau l'ID du film
-                movieId = getIdByColumn("movie", "title", movie.getTitle());
+                movieId = getIdByColumn("movie", "movie_title", movie.getTitle());
             } else {
                 LOG.info("Film déjà présent : {}", movie.getTitle());
             }
@@ -75,7 +75,14 @@ public class MovieInitWriter implements ItemWriter<Movie> {
             // Insérer la relation film-réalisateur si applicable
             Long directorId = directorIdMap.get(movie.getDirector().getFullName());
             if (directorId != null) {
-                jdbcTemplate.update("INSERT INTO director_movies (movie_id, director_id) VALUES (?, ?) ON CONFLICT (movie_id, director_id) DO NOTHING", movieId, directorId);
+                jdbcTemplate.update(
+                        "INSERT INTO director_movies (movie_id, director_id) " +
+                                "SELECT ?, ? " +
+                                "WHERE NOT EXISTS (" +
+                                "SELECT 1 FROM director_movies WHERE movie_id = ? AND director_id = ?)",
+                        movieId, directorId, movieId, directorId
+                );
+
                 LOG.info("Relation film-réalisateur ajoutée pour : {}", movie.getTitle());
             } else {
                 LOG.warn("Réalisateur non trouvé pour le film : {}", movie.getTitle());
@@ -129,8 +136,10 @@ public class MovieInitWriter implements ItemWriter<Movie> {
             // Récupérer l'ID de l'entité
             Long entityId = idMap.get(entityName);
             if (entityId != null) {
+                String sql=String.format("INSERT INTO %s (%s, %s) SELECT ?, ? WHERE NOT EXISTS (SELECT 1 FROM %s WHERE %s = ? AND %s = ?)",
+                        tableName, movieColumn, entityColumn, tableName, movieColumn, entityColumn);
                 // Insérer la relation dans la base de données
-                jdbcTemplate.update(String.format("INSERT INTO %s (%s, %s) VALUES (?, ?) ON CONFLICT (%s, %s) DO NOTHING", tableName, movieColumn, entityColumn, movieColumn, entityColumn), movieId, entityId);
+                jdbcTemplate.update(sql, movieId, entityId, movieId, entityId);
                 LOG.info("Relation ajoutée : Film ID = {}, Entité ID = {}", movieId, entityId);
             } else {
                 LOG.warn("ID non trouvé pour l'entité : {}", entityName);
