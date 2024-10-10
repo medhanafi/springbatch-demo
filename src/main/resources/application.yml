@@ -3,8 +3,9 @@ server:
 
 app:
   batch:
-      jobs:
-        "jobMovie"
+    inputFile: movies.csv
+    jobs:
+      "jobMovie"
 spring:
   datasource:
     #Postgres database config

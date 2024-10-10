@@ -1,5 +1,6 @@
 package net.siinergy.springbatch.demo.jobs.initdata;
 
+import lombok.Getter;
 import net.siinergy.springbatch.demo.jobs.listener.BatchStepListener;
 import net.siinergy.springbatch.demo.model.Movie;
 import net.siinergy.springbatch.demo.model.MovieData;
@@ -14,6 +15,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -27,6 +29,14 @@ public class MovieInitConfig {
     private final PlatformTransactionManager batchTransactionManager;
     private final JdbcTemplate jdbcTemplate;
     private static final int BATCH_SIZE = 100;
+    @Getter
+    @Value("${app.batch.inputFile}")
+    private String inputFileName;
+
+    public MovieInitConfig setInputFileName(String inputFileName) {
+        this.inputFileName = inputFileName;
+        return this;
+    }
 
     public MovieInitConfig(@Qualifier("jdbcTemplatePostgres") JdbcTemplate jdbcTemplate, JobRepository jobRepository, PlatformTransactionManager batchTransactionManager) {
         this.jobRepository = jobRepository;
@@ -39,7 +49,7 @@ public class MovieInitConfig {
         String[] columnNames = {"Id", "Title", "Year", "Genre", "Duration", "Origin", "Director", "IMDB rating","Rating count", "IMDB link"}; // Noms des colonnes
 
         return new FlatFileItemReaderBuilder<MovieData>()
-                .resource(new ClassPathResource("movies.csv"))
+                .resource(new ClassPathResource(inputFileName))
                 .name("MovieInit")
                 .linesToSkip(1)
                 .delimited()

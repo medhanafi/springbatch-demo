@@ -9,6 +9,7 @@ import io.cucumber.java.fr.Et;
 import io.cucumber.java.fr.Quand;
 import io.cucumber.java.fr.Étantdonnéque;
 import net.siinergy.springbatch.demo.cucumber.World;
+import net.siinergy.springbatch.demo.jobs.initdata.MovieInitConfig;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.springframework.batch.core.Job;
@@ -24,21 +25,25 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.in;
 
 public class JobInitTest {
     @Autowired
     protected World world;
 
     @Autowired
+    private MovieInitConfig conf;
+    @Autowired
     private JobLauncher jobLauncher;
     @Autowired
     Map<String, Job> jobs;
-    @Given("j'ai les données des films suivantes à ajouter dans notre référentiel")
-    public void prepareInitialData() {
+    @Given("j'ai les données des films suivantes {string} à ajouter dans notre référentiel")
+    public void prepareInitialData(String inputFileName) {
         assertThat(true).isEqualTo(true);
+        conf.setInputFileName(inputFileName);
     }
 
-    @When("je lance le job d'alimentation du référentiel  {string}")
+    @When("je lance le job d'alimentation du référentiel {string}")
     public void runJob(String jobName) throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
         var lejob = jobs.get(jobName);
         AssertionsForClassTypes.assertThat(lejob).as("le job %s n'as pas été trouvé", jobName).isNotNull();
