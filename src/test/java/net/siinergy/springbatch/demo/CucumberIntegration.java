@@ -10,7 +10,6 @@ import static io.cucumber.junit.platform.engine.Constants.*;
 @Suite
 @IncludeEngines("cucumber")
 @SelectClasspathResource("cucumber")
-@ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "not @ignore")
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "net.siinergy.springbatch.demo")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "json:build/reports/tests/cucumber.json,pretty,html:build/reports/tests/cucumber-reports.html")
 public class CucumberIntegration {
