@@ -25,9 +25,6 @@ import static org.assertj.core.api.Assertions.fail;
 public class JobInitTest {
     @Autowired
     protected World world;
-
-    @Autowired
-    private MovieInitConfig conf;
     @Autowired
     private JobLauncher jobLauncher;
     @Autowired
