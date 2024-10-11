@@ -6,7 +6,7 @@ import org.springframework.test.context.ActiveProfiles;
 import io.cucumber.spring.CucumberContextConfiguration;
 
 @CucumberContextConfiguration
-@SpringBootTest(classes = { Application.class}, properties = { "spring.main.allow-bean-definition-overriding=true" })
+@SpringBootTest(classes = { Application.class, JdbcTestConfiguration.class}, properties = { "spring.main.allow-bean-definition-overriding=true" })
 @ActiveProfiles({ "TEST" })
 public class CucumberSpringConfiguration {
 }

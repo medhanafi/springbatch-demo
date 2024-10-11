@@ -7,6 +7,7 @@ import net.siinergy.springbatch.demo.model.MovieData;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
@@ -29,14 +30,6 @@ public class MovieInitConfig {
     private final PlatformTransactionManager batchTransactionManager;
     private final JdbcTemplate jdbcTemplate;
     private static final int BATCH_SIZE = 100;
-    @Getter
-    @Value("${app.batch.inputFile}")
-    private String inputFileName;
-
-    public MovieInitConfig setInputFileName(String inputFileName) {
-        this.inputFileName = inputFileName;
-        return this;
-    }
 
     public MovieInitConfig(@Qualifier("jdbcTemplatePostgres") JdbcTemplate jdbcTemplate, JobRepository jobRepository, PlatformTransactionManager batchTransactionManager) {
         this.jobRepository = jobRepository;
@@ -45,11 +38,12 @@ public class MovieInitConfig {
     }
 
     @Bean("movieInitReader")
-    public FlatFileItemReader<MovieData> reader() {
+    @StepScope
+    public FlatFileItemReader<MovieData> reader(@Value("#{jobParameters[fileName]}") String fileName) {
         String[] columnNames = {"Id", "Title", "Year", "Genre", "Duration", "Origin", "Director", "IMDB rating","Rating count", "IMDB link"}; // Noms des colonnes
 
         return new FlatFileItemReaderBuilder<MovieData>()
-                .resource(new ClassPathResource(inputFileName))
+                .resource(new ClassPathResource(fileName))
                 .name("MovieInit")
                 .linesToSkip(1)
                 .delimited()
@@ -84,7 +78,7 @@ public class MovieInitConfig {
     public Step stepInitMovie(BatchStepListener batchStepListener ) {
         return new StepBuilder("stepInitMovie", jobRepository)
                 .<MovieData, Movie>chunk(BATCH_SIZE, batchTransactionManager)
-                .reader(reader())
+                .reader(reader(null))
                 .processor(processor())
                 .writer(writer())
                 .listener(batchStepListener)

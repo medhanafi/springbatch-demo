@@ -7,4 +7,6 @@ import org.springframework.stereotype.Component;
 public class World {
 
     public JobExecution jobExecution;
+
+    public String inputFileName;
 }

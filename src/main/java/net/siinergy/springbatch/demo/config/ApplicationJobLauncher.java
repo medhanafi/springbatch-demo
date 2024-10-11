@@ -9,6 +9,7 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
 @Component
+@Profile("!TEST")
 public class ApplicationJobLauncher implements ApplicationRunner {
 
     private final JobLauncher jobLauncher;
@@ -27,7 +29,8 @@ public class ApplicationJobLauncher implements ApplicationRunner {
     private List<String> jobToExecute;
 
     private final TaskExecutor executor;
-
+    @Value("${app.batch.inputFile}")
+    private String inputFileName;
     public ApplicationJobLauncher(JobLauncher jobLauncher, List<Job> jobs, TaskExecutor executor, @Value("${app.batch.jobs}") String jobNames) {
         this.jobLauncher = jobLauncher;
         this.jobs = jobs;
@@ -50,6 +53,7 @@ public class ApplicationJobLauncher implements ApplicationRunner {
             JobParameters jobParameters = new JobParametersBuilder()
                     .addDate("date", new Date())
                     .addString("jobName", job.getName())
+                    .addString("fileName", inputFileName)
                     .toJobParameters();
 
             // Création de la tâche de lancement de job

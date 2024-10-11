@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,9 +17,9 @@ import javax.sql.DataSource;
 import java.util.Objects;
 
 @TestConfiguration
-public class JdbcConfiguration {
+public class JdbcTestConfiguration {
     private final Environment env;
-    public JdbcConfiguration(Environment env) {
+    public JdbcTestConfiguration(Environment env) {
         this.env = env;
     }
 
@@ -49,8 +48,9 @@ public class JdbcConfiguration {
 
     private DatabasePopulator createDatabasePopulator() {
         ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
-        databasePopulator.setContinueOnError(true);
+        databasePopulator.setContinueOnError(false);
         databasePopulator.addScript(new ClassPathResource("scripts/test_movie_model.sql"));
+        databasePopulator.addScript(new ClassPathResource("scripts/db_batch_metadata.sql"));
         return databasePopulator;
     }
 }

@@ -10,9 +10,9 @@ spring:
   datasource:
     #Postgres database config
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/movie_db
-    username: movie_user
-    password: movie_pwd
+    url: jdbc:postgresql://localhost:5434/movies
+    username: user
+    password: password
     hikari:
       maximum-pool-size: 10
       connection-test-query: SELECT 1

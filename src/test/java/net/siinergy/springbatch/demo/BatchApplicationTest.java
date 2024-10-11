@@ -6,7 +6,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = { Application.class, JdbcConfiguration.class}, properties = { "spring.main.allow-bean-definition-overriding=true" })
+@SpringBootTest(classes = { Application.class, JdbcTestConfiguration.class}, properties = { "spring.main.allow-bean-definition-overriding=true" })
 @ActiveProfiles({ "TEST" })
 public class BatchApplicationTest {
 
