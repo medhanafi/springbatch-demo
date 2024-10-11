@@ -110,7 +110,7 @@ public class MovieInitWriter implements ItemWriter<Movie> {
     }
 
     // Méthode pour obtenir un ID en fonction d'une colonne
-    private Long getIdByColumn(String tableName, String columnName, String value) {
+    public Long getIdByColumn(String tableName, String columnName, String value) {
         try {
             // Exécuter la requête pour obtenir l'ID
             return jdbcTemplate.queryForObject(String.format("SELECT id FROM %s WHERE %s = ?", tableName, columnName), Long.class, value);

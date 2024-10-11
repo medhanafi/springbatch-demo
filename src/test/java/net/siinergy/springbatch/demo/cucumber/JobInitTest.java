@@ -4,7 +4,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import net.siinergy.springbatch.demo.jobs.initdata.MovieInitConfig;
+import net.siinergy.springbatch.demo.jobs.initdata.MovieInitWriter;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.springframework.batch.core.Job;
@@ -28,22 +28,23 @@ public class JobInitTest {
     @Autowired
     private JobLauncher jobLauncher;
     @Autowired
+    private MovieInitWriter movieInitWriter;
+    @Autowired
     Map<String, Job> jobs;
 
     @Given("j'ai les données des films suivantes {string} à ajouter dans notre référentiel")
     public void prepareInitialData(String inputFileName) {
-        world.inputFileName = inputFileName;
+        world.jobParametter = new JobParametersBuilder()
+                .addString("id", UUID.randomUUID().toString()) // paramèretres différents pour permettre d'executer plusieurs fois les même job/steps
+                .addString("fileName", inputFileName);
     }
 
     @When("je lance le job d'alimentation du référentiel {string}")
     public void runJob(String jobName) throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
         var lejob = jobs.get(jobName);
         AssertionsForClassTypes.assertThat(lejob).as("le job %s n'as pas été trouvé", jobName).isNotNull();
-        world.jobExecution = jobLauncher.run(lejob, new JobParametersBuilder()
-                .addString("job", jobName)
-                .addString("id", UUID.randomUUID().toString()) // paramèretres différents pour permettre d'executer plusieurs fois les même job/steps
-                .addString("fileName", world.inputFileName)
-                .toJobParameters());
+        world.jobParametter.addString("job", jobName);
+        world.jobExecution = jobLauncher.run(lejob, world.jobParametter.toJobParameters());
     }
 
     @Then("le job doit terminer avec succès")
@@ -63,15 +64,16 @@ public class JobInitTest {
             try {
                 Thread.onSpinWait(); // Active une attente occupée (spin-wait)
             } catch (Exception e) {
-               fail("Echèque d'execution", e.getCause());
+                fail("Echèque d'execution", e.getCause());
             }
         }
         Assertions.assertThat(world.jobExecution.getExitStatus().getExitCode()).isEqualTo("COMPLETED");
     }
 
     @And("le film {string} doit être ajouté avec succès")
-    public void leFilmDoitÊtreAjoutéAvecSuccès(String arg0) {
-        assertThat(true).isEqualTo(true);
+    public void leFilmDoitÊtreAjoutéAvecSuccès(String movieTitle) {
+        Long movieId = movieInitWriter.getIdByColumn("movie", "movie_title", movieTitle);
+        assertThat(movieId).isNotNull().isGreaterThan(0);
     }
 
     @And("les associations avec le réalisateur {string}, le\\(s) pays {string}, et le genre {string} doivent être créées correctement.")
